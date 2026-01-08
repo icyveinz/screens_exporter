@@ -14,6 +14,9 @@ def get_video_duration(video_path: Path) -> float:
         stdout=subprocess.PIPE,
         stderr=subprocess.PIPE,
         text=True,
-        check=True,
     )
+
+    if result.returncode != 0 or not result.stdout.strip():
+        raise RuntimeError("ffprobe не смог определить длительность")
+
     return float(result.stdout.strip())

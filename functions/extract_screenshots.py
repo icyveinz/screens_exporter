@@ -1,10 +1,9 @@
 import subprocess
 from pathlib import Path
-
 from functions.get_video_duration import get_video_duration
 
 
-def make_screenshots(video_path: Path, count: int):
+def extract_screenshots(video_path: Path, count: int):
     screens_dir = video_path.parent / "screens"
     screens_dir.mkdir(exist_ok=True)
 
@@ -32,13 +31,9 @@ def make_screenshots(video_path: Path, count: int):
             ],
             stdout=subprocess.DEVNULL,
             stderr=subprocess.DEVNULL,
-            check=False,
         )
 
         if output_file.exists():
             saved += 1
-            print(f"✔ Сохранён: {output_file.name}")
-        else:
-            print(f"❌ Не удалось сохранить: {output_file.name}")
 
-    print(f"\n✅ Сохранено {saved}/{count} скринов в:\n{screens_dir}")
+    return saved
